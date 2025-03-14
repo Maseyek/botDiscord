@@ -53,5 +53,5 @@ jobs:
 
           # Save new version and patch notes
           git add "$VERSION_FILE" patch_notes.txt
-          git commit --amend --no-edit
-          git push --force
+          git commit -m "Auto-update version to $NEW_VERSION"
+          git push
