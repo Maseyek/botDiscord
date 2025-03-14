@@ -1,0 +1,9 @@
+Version 0.0.1 - Versioning - test fix
+Version 1.0.1 - Version changed -> 1.0.0
+Version 1.0.2 - Empty commit - test versioning
+Version 1.0.3 - Merge remote-tracking branch 'origin/master'
+[2025-03-14 11:59] - Version 1.0.4 - Merge remote-tracking branch 'origin/master'
+[2025-03-14 12:20] - Version 1.0.5 - !patch added, !commands updated, Versioning improvement - skip merge commits
+[2025-03-14 12:30] - Version 1.0.6 - Try check added to prevent crashing bot while requesting join from unknown channel
+[2025-03-14 12:35] - Version 1.0.7 - Clean-up patch notes, withdraw last version-update.yml change
+[2025-03-14 12:43] - Version 1.0.8 - Versioning - last improvement, I hope

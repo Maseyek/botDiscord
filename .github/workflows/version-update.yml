@@ -1,0 +1,57 @@
+name: Update Version and Patch Notes
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  update_version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set Up Git
+        run: |
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Read and Update Version
+        run: |
+          VERSION_FILE="version.txt"
+
+          # If version.txt exists, read the current version
+          if [ -f "$VERSION_FILE" ]; then
+            VERSION=$(cat "$VERSION_FILE")
+          else
+            VERSION="0.0.0"
+          fi
+
+          # Extract X.YY.ZZZ versioning
+          MAJOR=$(echo $VERSION | cut -d. -f1)
+          MINOR=$(echo $VERSION | cut -d. -f2)
+          PATCH=$(echo $VERSION | cut -d. -f3)
+
+          # Increment the patch number
+          PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+
+          # Get latest commit message
+          COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          # Get latest commit date
+          COMMIT_DATE=$(git log -1 --date=format:'%Y-%m-%d %H:%M' --pretty=format:'%ad')
+          
+          # Update version file
+          echo "$NEW_VERSION" > "$VERSION_FILE"
+
+          # Append commit message to patch notes
+          echo "[$COMMIT_DATE] - Version $NEW_VERSION - $COMMIT_MESSAGE" >> patch_notes.txt
+
+          # Save new version and patch notes
+          git add "$VERSION_FILE" patch_notes.txt
+          git commit --amend --no-edit
+          git push --force
