@@ -8,3 +8,4 @@ Version 1.0.3 - Merge remote-tracking branch 'origin/master'
 [2025-03-14 12:35] - Version 1.0.7 - Clean-up patch notes, withdraw last version-update.yml change
 [2025-03-14 12:43] - Version 1.0.8 - Versioning - last improvement, I hope
 [2025-03-14 13:06] - Version 1.0.9 - Mistakes were made - revert versioning improvement
+[2025-05-11 23:40] - Version 1.0.10 - Auto-reconnect on short drops (ffmpeg)
