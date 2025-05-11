@@ -5,7 +5,7 @@ import config
 from discord.ext import commands
 
 load_dotenv()
-TOKEN=os.getenv("BOT_TOKEN")
+TOKEN = os.getenv("BOT_TOKEN")
 FFMPEG_PATH = os.getenv("FFMPEG_PATH")
 
 intents = discord.Intents.default()
@@ -18,15 +18,17 @@ bot = commands.Bot(command_prefix=config.PREFIX, intents=intents)
 
 active_client = {}
 
-#Commands
 
-#!los40
+# Commands
+
+# !los40
 @bot.command()
 async def los40(ctx):
     text_channel = ctx.channel
     member = ctx.guild.get_member(ctx.author.id)
     if member is None:
-        await ctx.send("Error: Could not retrieve member info. Please check bot permissions or enter voice channel if you are not in one already.")
+        await ctx.send(
+            "Error: Could not retrieve member info. Please check bot permissions or enter voice channel if you are not in one already.")
         return
 
     if member.voice and member.voice.channel:
@@ -41,8 +43,9 @@ async def los40(ctx):
             await ctx.send(f"Joined {channel.name} and started streaming radio!")
 
             vc._text_channel = text_channel
-            #vc.play(discord.FFmpegPCMAudio(config.RADIO_URL, executable=FFMPEG_PATH))
-            vc.play(discord.FFmpegPCMAudio(config.RADIO_URL))
+            # vc.play(discord.FFmpegPCMAudio(config.RADIO_URL, executable=FFMPEG_PATH))
+            vc.play(discord.FFmpegPCMAudio(config.RADIO_URL, before_options='-reconnect 1 -reconnect_streamed 1 '
+                                                                            '-reconnect_delay_max 5', options='-vn'))
 
         except discord.ClientException:
             await ctx.send("Error: Failed to connect to voice channel")
@@ -51,7 +54,8 @@ async def los40(ctx):
     else:
         await ctx.send("You need to be in voice channel to use command!")
 
-#!leave
+
+# !leave
 @bot.command()
 async def leave(ctx):
     if ctx.guild.id in active_client:
@@ -61,7 +65,8 @@ async def leave(ctx):
     else:
         await ctx.send("Not in channel")
 
-#!commands
+
+# !commands
 @bot.command()
 async def commands(ctx):
     help_message = """
@@ -76,7 +81,8 @@ async def commands(ctx):
 
     await ctx.send(help_message)
 
-#!patch
+
+# !patch
 @bot.command()
 async def patch(ctx):
     try:
@@ -95,8 +101,8 @@ async def patch(ctx):
         await ctx.send("Patch notes file not found")
 
 
-#Event
-#Empty channel
+# Event
+# Empty channel
 @bot.event
 async def on_voice_state_update(member, before, after):
     for guild_id, vc in list(active_client.items()):
@@ -106,10 +112,11 @@ async def on_voice_state_update(member, before, after):
             active_client.pop(guild_id, None)
 
 
-#Debug
+# Debug
 @bot.event
 async def on_ready():
     print(f"{bot.user} is online and listening to all channels!")
+
 
 @bot.event
 async def on_message(message):
