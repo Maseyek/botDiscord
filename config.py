@@ -12,3 +12,6 @@ RADIO_URL = "https://playerservices.streamtheworld.com/api/livestream-redirect/L
 
 # Settings
 AUTO_DISCONNECT = True
+
+# Github URL
+GITHUB_URL = "https://github.com/Maseyek/botDiscord"
